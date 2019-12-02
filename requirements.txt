@@ -1,0 +1,12 @@
+Django
+gunicorn
+django-heroku
+psycopg2
+dj-database-url
+whitenoise
+requests
+requests_oauthlib
+rq
+django-rq
+APScheduler
+sentry-sdk
