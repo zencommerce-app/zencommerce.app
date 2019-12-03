@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block h1 %}
+    ETSY Response
+{% endblock %}
+
+{% block pre_content %}
+    Help:
+    <ul>
+        <li>oauth/scopes</li>
+        <li>users/__SELF__</li>
+        <li>shops/__SELF__</li>
+        <li>shops/__SELF__/receipts</li>
+        <li>shops/__SELF__/listings/active</li>
+        <li>shops/__SELF__/listings/inactive</li>
+        <li>shops/__SELF__/listings/draft</li>
+        <li>shops/__SELF__/listings/expired</li>
+        <li>shops/__SELF__/listings/featured</li>
+        <li>countries</li>
+        <li>taxonomy/categories</li>
+        <li><a target="_blank" href="https://www.etsy.com/developers/documentation/getting_started/api_basics#reference">API Reference</a></li>
+    </ul>
+{% endblock %}
+
+{% block jumbotron %}
+    {% if error %}
+        <div class="alert alert-danger" role="alert">{{error}}</div>
+        <p>
+            <a href="/admin/man/etsyshop/">Manage Shops in Admin panel</a>
+        </p>
+    {% endif %}
+
+    {% if remaining_limit %}
+        <div class="alert alert-primary" role="alert">X-RateLimit-Remaining: {{remaining_limit}}</div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if response %}
+        <h3>Headers</h3>
+        <pre>{{headers_dict|pprint}}</pre>
+
+        <h3>Response</h3>
+        <pre>{{response.json|pprint}}</pre>
+    {% endif %}
+{% endblock %}

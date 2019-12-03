@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block h1 %}
+    <h1 class="masthead-heading text-uppercase mb-0">Log in</h1>
+    <form action="/admin/login/?next=/d/" method="post" id="login-form">{% csrf_token %}
+        <input type="hidden" name="next" value="/d/">
+
+        <div class="control-group">
+          <div class="form-group floating-label-form-group controls mb-0 pb-2">
+            <label>Username</label>
+            <input class="form-control" name="username" id="id_username" type="text" placeholder="Username" required="required" data-validation-required-message="Please enter your username." aria-invalid="false">
+            <p class="help-block text-danger"></p>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="form-group floating-label-form-group controls mb-0 pb-2">
+            <label>Password</label>
+            <input class="form-control" id="id_password" name="password" type="password" placeholder="Password" required="required" data-validation-required-message="Please enter your password.">
+            <p class="help-block text-danger"></p>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Log in</button>
+        </div>
+
+    </form>
+{% endblock %}

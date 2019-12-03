@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Zen-Commerce application - multiple Etsy shops management {% block title %}{% endblock %}</title>
+
+    <meta charset="utf-8">
+
+    <meta name="keywords" content="order, commerce, zencommerce, management, application, openspurce, gpl, etsy, shop, owner, software, manage, workflow, multiple, process, automation, free, online" />
+
+    <meta name="description" content="Order management application for Etsy sellers. Zen-Commerce software - perfect for optimization of workflow when you own a multiple shops on Etsy. Application code distributed under the terms of GNU GPLv3 license."/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link href="https://blackrockdigital.github.io/startbootstrap-freelancer/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Theme CSS -->
+    <!-- Theme by David Miller - https://startbootstrap.com/themes/freelancer/ -->
+    <link href="https://blackrockdigital.github.io/startbootstrap-freelancer/css/freelancer.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand" href="#page-top">
+            Zen-Commerce - manage multiple Etsy shops in one place
+        </a>
+      </div>
+    </nav>
+
+    <header class="masthead bg-primary text-white text-center">
+      <div class="container d-flex align-items-center flex-column">
+        {% block h1 %}
+          <h1 class="masthead-heading text-uppercase mb-0">Zen-Commerce</h1>
+        {% endblock %}
+      <!-- Icon Divider -->
+      <div class="divider-custom divider-light">
+        <div class="divider-custom-line"></div>
+        <div class="divider-custom-icon">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="divider-custom-line"></div>
+      </div>
+
+      <!-- Masthead Subheading -->
+      <p class="masthead-subheading font-weight-light mb-0">Manage - Orders - Easy</p>
+
+    </div>
+    </header>
+
+    <main role="main">
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer class="footer text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 mb-5 mb-lg-0">
+            <h4 class="text-uppercase mb-4">About Zen-Commerce</h4>
+            <p class="lead mb-0">
+              <a href="/pages/about/">About</a>
+              <br />
+              <a href="https://github.com/TatamPotom/zencommerce.app">View on GitHub</a>
+              <br />
+              <a href="https://blog.zencommerce.app/">Blog & News</a>
+              <br />
+              <a href="https://blog.zencommerce.app/p/contact-us.html">Contact Us</a>
+              <br />
+              <a target=_blank href="https://startbootstrap.com/themes/freelancer/">Theme by David Miller</a>
+            </p>
+          </div>
+
+          <div class="col-lg-4 mb-5 mb-lg-0">
+            <h4 class="text-uppercase mb-4">Around the Web</h4>
+            <a class="btn btn-outline-light btn-social mx-1" href="#">
+              <i class="fab fa-fw fa-facebook-f"></i>
+            </a>
+            <a class="btn btn-outline-light btn-social mx-1" href="https://twitter.com/ZencommerceA">
+              <i class="fab fa-fw fa-twitter"></i>
+            </a>
+            <a class="btn btn-outline-light btn-social mx-1" href="#">
+              <i class="fab fa-fw fa-linkedin-in"></i>
+            </a>
+            <a class="btn btn-outline-light btn-social mx-1" href="https://blog.zencommerce.app/">
+              <i class="fab fa-fw fa-dribbble"></i>
+            </a>
+          </div>
+
+          <div class="col-lg-4">
+            <h4 class="text-uppercase mb-4">Disclaimer</h4>
+            <p class="lead mb-0">
+              The term 'Etsy' is a trademark of Etsy, Inc. This application uses the Etsy API but is not endorsed or certified by Etsy.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </footer>
+</body>
+
+</html>

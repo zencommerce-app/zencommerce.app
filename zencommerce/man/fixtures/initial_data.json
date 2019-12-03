@@ -1,0 +1,23 @@
+[
+  {
+    "model": "sites.site",
+    "pk": 1,
+    "fields": {
+      "domain": "127.0.0.1",
+      "name": "Zen-Commerce"
+    }
+  },
+  {
+    "model": "flatpages.flatpage",
+    "pk": 1,
+    "fields": {
+        "url": "/about/",
+        "title": "About Zen-Commerce",
+        "content": "<h1>Zen-Commerce software</h1>\r\n<p>\r\nApplication is intended to help Etsy shop owners to manage their respective shops. Our mission is to make life more easy and pleasant and save time for the people we love. Etsy marketplace shop owners are mostly creative persons, who create a great handcraft items. It is great when hobby and ideas become a successful business.\r\n</p>\r\n<p>\r\nStay cool and have a very warm and productive day,\r\n</p>\r\n-- Zen-Commerce Team",
+        "enable_comments": false,
+        "template_name": "",
+        "registration_required": false,
+        "sites": [1]
+    }
+  }
+]

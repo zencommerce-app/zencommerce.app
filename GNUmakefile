@@ -1,5 +1,8 @@
 default: gunicorn
 
+loaddata:
+	python3 ./zencommerce/manage.py loaddata initial_data.json
+
 migrate:
 	python3 ./zencommerce/manage.py makemigrations && python3 ./zencommerce/manage.py migrate
 

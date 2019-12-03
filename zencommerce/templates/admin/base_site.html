@@ -1,0 +1,20 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | Zen-Commerce{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Zen-Commerce</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block footer %}
+<div id="footer">
+    <p class="float-right">
+      The term 'Etsy' is a trademark of Etsy, Inc. This application uses the Etsy API but is not endorsed or certified by Etsy.
+    </p>
+    <a href="/pages/about/">About</a>
+    |
+    <a href="/pages/contact/">Contact Us</a>
+</div>
+{% endblock %}

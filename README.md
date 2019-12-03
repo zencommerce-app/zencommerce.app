@@ -20,6 +20,20 @@ Our mission is to make life more easy and pleasant and save time for the people 
 Application code distributed under the terms of GNU GPLv3 license. This lets you do almost anything you want with a project, except distributing closed source versions.
 
 
+## Obtaining Etsy API keys
+
+In order to use Zen-Commerce application you need to register on https://www.etsy.com/developers/documentation/getting_started/register
+
+This gives you your API key and allows you to start working on your application. When your application is created, it starts with Provisional Access to our production systems to use during development.
+
+Etsy will provide you with a Keystring and Shared secret to use with API. Put these into Zen-Commerce settings.
+You should find a placeholders for these in 'settings.py'
+
+
+    ETSY_KEYSTRING = PUT_YOUR_KEY_HERE
+    ETSY_SHARED_SECRET = PUT_YOUR_SHARED_SECRET_HERE
+
+
 ## Installation and requirements
 
 Application use Django 2.x framework and Python 3.x. It is designed to be deployed on Heroku Cloud platform (https://www.heroku.com ).
@@ -36,3 +50,48 @@ The most important packages are - Django, Gunicorn, Heroku app support, PostgreS
 
 Known issues:
  * 'psycopg2' package installation may result in error. You may use 'psycopg2-binary' pre-built package as well.
+
+Next step is setting up your PostgreSQL server. Zen-Commerce uses specific featured and wouldn't run on SQLite or MySQL.
+You may get latest PostgreSQL on https://www.postgresql.org
+
+## Settings.py and local_settings.py
+
+Application's configuration is stored in a file named "settings.py".
+This is natural way in a Django world. Most of values are ok by default.
+Some of settings should be set in order to use Zen-Commerce:
+
+    OAUTH_CALLBACK_URI = "http://YOURDOMAIN/man/oauth_callback"
+    ETSY_KEYSTRING = 'KEYSTRING'
+    ETSY_SHARED_SECRET = 'SECRET'
+    SECRET_KEY = 'YOUR UNIQUE DJANGO SECRET KEY'
+    SENTRY_DSN = 'https://BLABLABLA@sentry.io/BLABLABLA'
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'DB_NAME',
+        'USER': 'DB_USER',
+        'PASSWORD': 'DB_PASSWORD',
+        'HOST': 'DB_HOST',
+        'PORT': 'DB_PORT',
+    }
+}
+
+After all is set up run these make commands from terminal:
+
+    make migrate
+    make loaddata
+    make gunicorn
+
+This will apply migrations, load initial data from fixtures and start a dev server at http://127.0.0.1:8000
+
+Useful step:
+
+    python ./zencommerce/manage.py createsuperuser
+
+This will help you to create a rot/superuser in aplication.
+
+
+## Contact us
+
+Zen-Commerce team will be happy to hear a word from you.
+
