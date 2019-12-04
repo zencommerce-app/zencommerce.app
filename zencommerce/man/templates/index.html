@@ -1,6 +1,19 @@
 {% extends 'base.html' %}
 
+{% block menu %}
+  {% if user.is_authenticated %}
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item mx-0 mx-lg-1">
+        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/d/">Dashboard</a>
+      </li>
+    </ul>
+  {% endif %}
+{% endblock %}
+
 {% block h1 %}
+  {% if user.is_authenticated %}
+    <h1 class="masthead-heading text-uppercase mb-0">Welcome {{user}}</h1>
+  {% else %}
     <h1 class="masthead-heading text-uppercase mb-0">Log in</h1>
     <form action="/admin/login/?next=/d/" method="post" id="login-form">{% csrf_token %}
         <input type="hidden" name="next" value="/d/">
@@ -24,4 +37,19 @@
         </div>
 
     </form>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    <div class="jumbotron">
+      <div class="col-sm-8 mx-auto">
+        <ul>
+          <li>Open <a href="/d/">Dashboard</a> to manage orders</li>
+          <li>Read latest news in <a href="https://blog.zencommerce.app/">Blog</a></li>
+          <li>Access documentation <a href="https://zencommerceapp.readthedocs.io">https://zencommerceapp.readthedocs.io</a></li>
+        </ul>
+      </div>
+    </div>
+  {% endif %}
 {% endblock %}

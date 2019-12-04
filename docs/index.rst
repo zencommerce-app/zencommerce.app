@@ -1,6 +1,16 @@
-# Zen-Commerce
+.. Zen-Commerce.app documentation master file, created by
+   sphinx-quickstart on Wed Dec  4 20:24:15 2019.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
 
-Order management application for online sellers.
+Welcome to Zen-Commerce documentation!
+============================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+Zen-Commerce.app is order management application for online sellers.
 
  * https://zencommerce.app
  * https://blog.zencommerce.app
@@ -18,21 +28,6 @@ Our mission is to make life more easy and pleasant and save time for the people 
 ## License
 
 Application code distributed under the terms of GNU GPLv3 license. This lets you do almost anything you want with a project, except distributing closed source versions.
-
-
-## Obtaining Etsy API keys
-
-In order to use Zen-Commerce application you need to register on https://www.etsy.com/developers/documentation/getting_started/register
-
-This gives you your API key and allows you to start working on your application. When your application is created, it starts with Provisional Access to our production systems to use during development.
-
-Etsy will provide you with a Keystring and Shared secret to use with API. Put these values into Zen-Commerce settings.
-You should find placeholders 'settings.py':
-
-
-    ETSY_KEYSTRING = PUT_YOUR_KEY_HERE
-    ETSY_SHARED_SECRET = PUT_YOUR_SHARED_SECRET_HERE
-
 
 ## Installation and requirements
 
@@ -76,6 +71,18 @@ Some of settings should be set in order to use Zen-Commerce:
     }
 }
 
+In order to use Zen-Commerce application you need to register on https://www.etsy.com/developers/documentation/getting_started/register
+
+This gives you your API key and allows you to start working on your application. When your application is created, it starts with Provisional Access to our production systems to use during development.
+
+Etsy will provide you with a Keystring and Shared secret to use with API. Put these values into Zen-Commerce settings.
+You should find placeholders 'settings.py':
+
+
+    ETSY_KEYSTRING = PUT_YOUR_KEY_HERE
+    ETSY_SHARED_SECRET = PUT_YOUR_SHARED_SECRET_HERE
+
+
 After all is set up run these make commands from terminal:
 
     make migrate
@@ -91,18 +98,9 @@ Useful step:
 This will help you to create a root/superuser in application.
 
 
-## Documentation
+Indices and tables
+==================
 
-Documentation for project is maintained using Sphinx (http://www.sphinx-doc.org )
-
-To work on documentation you will need to install it via PIP:
-
-    pip install sphinx
-
-If you need only to read documentation, you may use RTD https://zencommerceapp.readthedocs.io
-
-
-## Contact us
-
-Zen-Commerce team will be happy to hear a word from you.
-
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
