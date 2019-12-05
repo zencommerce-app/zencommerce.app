@@ -15,6 +15,7 @@ from worker import conn
 
 from . import mixins
 from . import jobs
+from . import etsy_enums
 
 
 class EtsyCountry(models.Model):
@@ -139,6 +140,9 @@ class EtsyListing(mixins.BaseMixin, mixins.JobsLogMixin):
     """
     Model to represent Listing (sellable item) in ETSY shop
     """
+    # TODO: attributes - listings/ID/attributes
+    # TODO: images - listings/ID/images
+
     shop = models.ForeignKey(EtsyShop, on_delete=models.CASCADE)
 
     is_modified_locally = models.BooleanField(default=False)
@@ -153,7 +157,17 @@ class EtsyListing(mixins.BaseMixin, mixins.JobsLogMixin):
     state = models.CharField(max_length=200, blank=True)
     # user_id in JSON
     etsy_user_id = models.IntegerField(blank=True, default=0)
+
+    # Category ID is deprecated, use Taxonomy instead
     category_id = models.IntegerField(blank=True, default=0)
+    category_path = ArrayField(models.CharField(max_length=200), blank=True, null=True)
+    category_path_ids = ArrayField(models.IntegerField(default=0), blank=True, null=True)
+    # Taxonomy ID is new type of Categories
+    # https://www.etsy.com/developers/documentation/reference/taxonomy#method_getsellertaxonomy
+    # https://www.etscsv.com/taxonomies
+    taxonomy_id = models.IntegerField(blank=True, null=True)
+    suggested_taxonomy_id = models.IntegerField(blank=True, null=True)
+    taxonomy_path = ArrayField(models.CharField(max_length=200), blank=True, null=True)
 
     creation_tsz = models.FloatField(blank=True, default=0.0)
     ending_tsz = models.FloatField(blank=True, default=0.0)
@@ -166,8 +180,7 @@ class EtsyListing(mixins.BaseMixin, mixins.JobsLogMixin):
 
     sku = ArrayField(models.CharField(max_length=200), blank=True, null=True)
     tags = ArrayField(models.CharField(max_length=200), blank=True, null=True)
-    category_path = ArrayField(models.CharField(max_length=200), blank=True, null=True)
-    category_path_ids = ArrayField(models.IntegerField(default=0), blank=True, null=True)
+
     materials = ArrayField(models.CharField(max_length=200), blank=True, null=True)
     shop_section_id = models.IntegerField(blank=True, null=True)
     featured_rank = models.IntegerField(blank=True, null=True)
@@ -176,9 +189,10 @@ class EtsyListing(mixins.BaseMixin, mixins.JobsLogMixin):
     shipping_template_id = models.CharField(max_length=200, blank=True, null=True)
     processing_min = models.IntegerField(blank=True, null=True)
     processing_max = models.IntegerField(blank=True, null=True)
-    who_made = models.CharField(max_length=200, blank=True)
+
+    who_made = models.CharField(max_length=200, blank=True, choices=etsy_enums.ETSY_WHO_MAKE)
     is_supply = models.BooleanField(default=False)
-    when_made = models.CharField(max_length=200, blank=True)
+    when_made = models.CharField(max_length=200, blank=True, choices=etsy_enums.ETSY_WHEN_MADE)
 
     item_weight = models.IntegerField(blank=True, null=True)
     item_weight_unit = models.CharField(max_length=200, blank=True, null=True)
@@ -189,6 +203,8 @@ class EtsyListing(mixins.BaseMixin, mixins.JobsLogMixin):
     is_private = models.BooleanField(default=False)
     recipient = models.CharField(max_length=200, blank=True, null=True)
 
+    # Looks deprecated
+    # use taxonomy and listings/{ID}/attributes
     occasion = models.CharField(max_length=200, blank=True, null=True)
     style = ArrayField(models.CharField(max_length=200), blank=True, null=True)
 
@@ -198,13 +214,14 @@ class EtsyListing(mixins.BaseMixin, mixins.JobsLogMixin):
     file_data = models.TextField(blank=True)
     can_write_inventory = models.BooleanField(default=False)
     should_auto_renew = models.BooleanField(default=False)
+
     language = models.CharField(max_length=200, blank=True)
 
     has_variations = models.BooleanField(default=False)
-    taxonomy_id = models.IntegerField(blank=True, null=True)
-    suggested_taxonomy_id = models.IntegerField(blank=True, null=True)
-    taxonomy_path = ArrayField(models.CharField(max_length=200), blank=True, null=True)
+
     used_manufacturer = models.BooleanField(default=False)
+
+    # set to True if when_made < Before 2000
     is_vintage = models.BooleanField(default=False)
 
     views = models.IntegerField(blank=True, null=True)

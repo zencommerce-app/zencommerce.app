@@ -23,7 +23,6 @@ class EtsyTransactionAdmin(admin.ModelAdmin):
     list_display = ('transaction_id', 'receipt_id', 'title', 'price', 'currency_code', 'quantity', 'shipping_cost')
 
 
-
 admin.site.register(EtsyShop, EtsyShopAdmin)
 admin.site.register(EtsyListing, EtsyListingAdmin)
 admin.site.register(EtsyCountry, EtsyCountryAdmin)

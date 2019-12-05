@@ -60,6 +60,7 @@ INSTALLED_APPS = [
 
     # Project specific apps
     'man',
+    'flow',
 ]
 
 MIDDLEWARE = [
