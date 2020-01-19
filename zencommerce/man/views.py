@@ -6,8 +6,11 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
+from django.core.paginator import Paginator
+from django.conf import settings
 
-from .models import EtsyShop
+from .models import EtsyShop, EtsyReceipt
+from flow.models import BusinessProcessStep
 
 
 def home(request):
@@ -22,10 +25,19 @@ def dashboard(request):
     """
     Dashboard with orders, shops and work tools
     """
-    items = []
+
+    steps = BusinessProcessStep.objects.all().order_by('step')
+
+    paginator = Paginator(
+        EtsyReceipt.objects.filter(user=request.user),
+        settings.PER_PAGE
+    )
+
+    items = paginator.page(request.GET.get("page", 1))
 
     context = {
-        "items": items
+        "steps": steps,
+        "items": items,
     }
     return render(request, 'dashboard.html', context)
 

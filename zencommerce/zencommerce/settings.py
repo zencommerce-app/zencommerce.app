@@ -174,6 +174,8 @@ DATABASES = {
     }
 }
 
+PER_PAGE = 10
+
 # Local dev settings
 try:
     # To use your own dev settings, create a file named 'local_settings.py'

@@ -1,0 +1,47 @@
+[
+    {
+        "model": "man.etsyshop",
+        "pk": 1,
+        "fields": {"user": 1, "title": "Test", "jobs_log": "", "uri": "http://test.com", "etsy_id": 0, "oauth_token": "", "oauth_token_secret": "", "verifier": ""}
+    }, {
+        "model": "man.etsyreceipt",
+        "pk": 1,
+        "fields": {"user": 1, "title": "Test 1", "jobs_log": "", "shop": 1, "order_id": 2, "buyer_email": "a@a.com", "creation_tsz": 0.0, "last_modified_tsz": 0.0, "is_gift": false, "is_overdue": false, "was_paid": false, "was_shipped": false, "currency_code": "USD", "discount_amt": "", "grandtotal": "19.99", "adjusted_grandtotal": "19.99", "buyer_adjusted_grandtotal": "19.99", "receipt_data": {"data": "Test test test"}}
+    }, {
+        "model": "man.etsyreceipt",
+        "pk": 2,
+        "fields": {"user": 1, "title": "Test 2", "jobs_log": "", "shop": 1, "order_id": 2, "buyer_email": "ba@a.com", "creation_tsz": 0.0, "last_modified_tsz": 0.0, "is_gift": false, "is_overdue": false, "was_paid": false, "was_shipped": false, "currency_code": "USD", "discount_amt": "", "grandtotal": "19.99", "adjusted_grandtotal": "19.99", "buyer_adjusted_grandtotal": "29.99", "receipt_data": {"data": "Test test test"}}
+    }, {
+        "model": "man.etsyreceipt",
+        "pk": 3,
+        "fields": {"user": 1, "title": "Test 3", "jobs_log": "", "shop": 1, "order_id": 2, "buyer_email": "ada@a.com", "creation_tsz": 0.0, "last_modified_tsz": 0.0, "is_gift": false, "is_overdue": false, "was_paid": false, "was_shipped": false, "currency_code": "USD", "discount_amt": "", "grandtotal": "19.99", "adjusted_grandtotal": "19.99", "buyer_adjusted_grandtotal": "9.99", "receipt_data": {"data": "Test test test"}}
+    }, {
+        "model": "man.etsyreceipt",
+        "pk": 4,
+        "fields": {"user": 1, "title": "Test 4", "jobs_log": "", "shop": 1, "order_id": 2, "buyer_email": "anan@a.com", "creation_tsz": 0.0, "last_modified_tsz": 0.0, "is_gift": false, "is_overdue": false, "was_paid": false, "was_shipped": false, "currency_code": "USD", "discount_amt": "", "grandtotal": "19.99", "adjusted_grandtotal": "19.99", "buyer_adjusted_grandtotal": "555.05", "receipt_data": {"data": "Test test test"}}
+    }, {
+        "model": "man.etsyreceipt",
+        "pk": 5,
+        "fields": {"user": 1, "title": "Test 5", "jobs_log": "", "shop": 1, "order_id": 2, "buyer_email": "amon@a.com", "creation_tsz": 0.0, "last_modified_tsz": 0.0, "is_gift": false, "is_overdue": false, "was_paid": false, "was_shipped": false, "currency_code": "USD", "discount_amt": "", "grandtotal": "19.99", "adjusted_grandtotal": "19.99", "buyer_adjusted_grandtotal": "25.50", "receipt_data": {"data": "Test test test"}}
+    }, {
+        "model": "man.etsyreceipt",
+        "pk": 6,
+        "fields": {"user": 1, "title": "Test 6", "jobs_log": "", "shop": 1, "order_id": 2, "buyer_email": "amon@a.com", "creation_tsz": 0.0, "last_modified_tsz": 0.0, "is_gift": false, "is_overdue": false, "was_paid": false, "was_shipped": false, "currency_code": "USD", "discount_amt": "", "grandtotal": "19.99", "adjusted_grandtotal": "19.99", "buyer_adjusted_grandtotal": "25.50", "receipt_data": {"data": "Test test test"}}
+    }, {
+        "model": "man.etsyreceipt",
+        "pk": 7,
+        "fields": {"user": 1, "title": "Test 7", "jobs_log": "", "shop": 1, "order_id": 2, "buyer_email": "bbbamon@a.com", "creation_tsz": 0.0, "last_modified_tsz": 0.0, "is_gift": false, "is_overdue": false, "was_paid": false, "was_shipped": false, "currency_code": "USD", "discount_amt": "", "grandtotal": "119.99", "adjusted_grandtotal": "19.99", "buyer_adjusted_grandtotal": "25.50", "receipt_data": {"data": "Test test test"}}
+    }, {
+        "model": "man.etsyreceipt",
+        "pk": 8,
+        "fields": {"user": 1, "title": "Test 8", "jobs_log": "", "shop": 1, "order_id": 2, "buyer_email": "aaaamon@a.com", "creation_tsz": 0.0, "last_modified_tsz": 0.0, "is_gift": false, "is_overdue": false, "was_paid": false, "was_shipped": false, "currency_code": "USD", "discount_amt": "", "grandtotal": "219.99", "adjusted_grandtotal": "19.99", "buyer_adjusted_grandtotal": "25.50", "receipt_data": {"data": "Test test test"}}
+    }, {
+        "model": "man.etsyreceipt",
+        "pk": 9,
+        "fields": {"user": 1, "title": "Test 9", "jobs_log": "", "shop": 1, "order_id": 2, "buyer_email": "tttamon@a.com", "creation_tsz": 0.0, "last_modified_tsz": 0.0, "is_gift": false, "is_overdue": false, "was_paid": false, "was_shipped": false, "currency_code": "USD", "discount_amt": "", "grandtotal": "80.99", "adjusted_grandtotal": "19.99", "buyer_adjusted_grandtotal": "25.50", "receipt_data": {"data": "Test test test"}}
+    }, {
+        "model": "man.etsyreceipt",
+        "pk": 10,
+        "fields": {"user": 1, "title": "Test 10", "jobs_log": "", "shop": 1, "order_id": 2, "buyer_email": "dddamon@a.com", "creation_tsz": 0.0, "last_modified_tsz": 0.0, "is_gift": false, "is_overdue": false, "was_paid": false, "was_shipped": false, "currency_code": "USD", "discount_amt": "", "grandtotal": "35.55", "adjusted_grandtotal": "19.99", "buyer_adjusted_grandtotal": "25.50", "receipt_data": {"data": "Test test test"}}
+    }
+]

@@ -4,9 +4,70 @@
     - Dashboard
 {% endblock %}
 
+
 {% block h1 %}
-    <h1 class="masthead-heading text-uppercase mb-0">Zen-Commerce</h1>
+    <h1 class="masthead-heading text-uppercase mb-0">Receipts / Orders</h1>
+{% endblock %}
+
+{% block subheading %}
+{% endblock %}
+
+{% block menu %}
+    <ul class="navbar-nav ml-auto">
+    {% for item in steps %}
+        <li class="nav-item mx-0 mx-lg-1">
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#{{item}}">{{item}}</a>
+        </li>
+    {% endfor %}
+    </ul>
 {% endblock %}
 
 {% block content %}
+    <div class="jumbotron">
+      <div class="col-sm-8 mx-auto">
+        {% for item in items %}
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">
+                    {{item.shop}} >> {{item}}
+                    <div class="dropdown float-right">
+                          <button class="badge badge-info badge-pill btn btn-info dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{item.currency_code}} {{item.grandtotal}}
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item small" href="#">Actions</a>
+                          </div>
+                        </div>
+                </h5>
+                <p class="card-text">
+                    Buyer: {{item.buyer_email}}
+                </p>
+                <a href="#" class="btn btn-primary">Actions</a>
+              </div>
+            </div>
+        {% endfor %}
+
+        {% if items.has_other_pages %}
+          <ul class="pagination">
+            {% if items.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page={{ items.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+            {% endif %}
+            {% for i in items.paginator.page_range %}
+              {% if items.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+              {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if items.has_next %}
+              <li class="page-item"><a class="page-link" href="?page={{ items.next_page_number }}">&raquo;</a></li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            {% endif %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
 {% endblock %}

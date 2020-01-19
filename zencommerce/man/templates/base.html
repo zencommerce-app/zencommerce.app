@@ -49,6 +49,7 @@
       </div>
     </nav>
 
+    {% block header %}
     <header class="masthead bg-primary text-white text-center">
       <div class="container d-flex align-items-center flex-column">
         {% block h1 %}
@@ -64,10 +65,12 @@
       </div>
 
       <!-- Masthead Subheading -->
+      {% block subheading %}
       <p class="masthead-subheading font-weight-light mb-0">Manage - Orders - Easy</p>
-
+      {% endblock %}
     </div>
     </header>
+    {% endblock %}
 
     <main role="main">
         {% block content %}

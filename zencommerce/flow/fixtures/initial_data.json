@@ -1,0 +1,31 @@
+[
+    {
+        "model": "flow.businessprocessstep",
+        "pk": 1,
+        "fields": {"user": 1, "step": 1, "title": "New", "description": "", "query": ""}
+    }, {
+        "model": "flow.businessprocessstep",
+        "pk": 2,
+        "fields": {"user": 1, "step": 2, "title": "Payment received", "description": "", "query": ""}
+    }, {
+        "model": "flow.businessprocessstep",
+        "pk": 3,
+        "fields": {"user": 1, "step": 3, "title": "In Production", "description": "", "query": ""}
+    }, {
+        "model": "flow.businessprocessstep",
+        "pk": 4,
+        "fields": {"user": 1, "step": 4, "title": "Ready to Ship", "description": "", "query": ""}
+    }, {
+        "model": "flow.businessprocessstep",
+        "pk": 5,
+        "fields": {"user": 1, "step": 5, "title": "Shipped", "description": "", "query": ""}
+    }, {
+        "model": "flow.businessprocessstep",
+        "pk": 6,
+        "fields": {"user": 1, "step": 6, "title": "In Transit", "description": "", "query": ""}
+    }, {
+        "model": "flow.businessprocessstep",
+        "pk": 7,
+        "fields": {"user": 1, "step": 7, "title": "Complete", "description": "", "query": ""}
+    }
+]
