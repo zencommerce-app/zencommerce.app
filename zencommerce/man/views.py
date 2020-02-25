@@ -26,18 +26,36 @@ def dashboard(request):
     Dashboard with orders, shops and work tools
     """
 
+    step = request.GET.get("step", "")
     steps = BusinessProcessStep.objects.all().order_by('step')
 
+    shops = EtsyShop.objects.filter(user=request.user)
+    orders = EtsyReceipt.objects.filter(user=request.user).order_by('creation_tsz')
+
+    if step == "New":
+        orders = orders.filter(was_paid=False)
+
     paginator = Paginator(
-        EtsyReceipt.objects.filter(user=request.user),
+        orders,
         settings.PER_PAGE
     )
 
-    items = paginator.page(request.GET.get("page", 1))
+    page = request.GET.get("page", 1)
+    items = paginator.page(page)
+
+    delta_page_range = 20
+    index = items.number - 1
+    max_index = len(paginator.page_range)
+    start_index = index - delta_page_range if index >= delta_page_range else 0
+    end_index = index + delta_page_range if index <= max_index - delta_page_range else max_index
+    page_range = list(paginator.page_range)[start_index:end_index]
 
     context = {
+        "step": step,
         "steps": steps,
+        "shops": shops,
         "items": items,
+        'page_range': page_range,
     }
     return render(request, 'dashboard.html', context)
 

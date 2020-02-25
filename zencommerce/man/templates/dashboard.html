@@ -6,7 +6,9 @@
 
 
 {% block h1 %}
-    <h1 class="masthead-heading text-uppercase mb-0">Receipts / Orders</h1>
+    <h1 class="masthead-heading text-uppercase mb-0">
+      Orders{% if step %}: {{step}}{% endif %}
+    </h1>
 {% endblock %}
 
 {% block subheading %}
@@ -16,7 +18,7 @@
     <ul class="navbar-nav ml-auto">
     {% for item in steps %}
         <li class="nav-item mx-0 mx-lg-1">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#{{item}}">{{item}}</a>
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="?step={{item}}">{{item}}</a>
         </li>
     {% endfor %}
     </ul>
@@ -25,12 +27,17 @@
 {% block content %}
     <div class="jumbotron">
       <div class="col-sm-8 mx-auto">
+        {% include 'dashboard_filters.html' %}
+
         {% for item in items %}
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">
-                    {{item.shop}} >> {{item}}
+                    {{item.shop}} >> #{{item.receipt_id}}
                     <div class="dropdown float-right">
+                        {% if item.was_paid %}
+                          <span class="small">Paid</span>
+                        {% endif %}
                           <button class="badge badge-info badge-pill btn btn-info dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{item.currency_code}} {{item.grandtotal}}
                           </button>
@@ -42,7 +49,9 @@
                 <p class="card-text">
                     Buyer: {{item.buyer_email}}
                 </p>
-                <a href="#" class="btn btn-primary">Actions</a>
+                <a href="#" class="btn btn-primary">Move to production</a>
+                <a href="#" class="btn btn-info">Pack</a>
+                <a href="#" class="btn btn-warning">Ship</a>
               </div>
             </div>
         {% endfor %}
@@ -54,7 +63,7 @@
             {% else %}
               <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
             {% endif %}
-            {% for i in items.paginator.page_range %}
+            {% for i in page_range %}
               {% if items.number == i %}
                 <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
               {% else %}
