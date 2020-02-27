@@ -9,7 +9,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
 from django.conf import settings
 
-from .models import EtsyShop, EtsyReceipt
+from .models import EtsyShop, EtsyReceipt, EtsyListing
 from flow.models import BusinessProcessStep
 
 
@@ -58,6 +58,49 @@ def dashboard(request):
         'page_range': page_range,
     }
     return render(request, 'dashboard.html', context)
+
+
+@login_required
+def listings(request):
+    """
+    Dashboard with listings
+    """
+
+    shops = EtsyShop.objects.filter(user=request.user)
+
+    items_all = EtsyListing.objects.filter(user=request.user).order_by('creation_tsz')
+
+    paginator = Paginator(
+        items_all,
+        settings.PER_PAGE
+    )
+
+    page = request.GET.get("page", 1)
+    items = paginator.page(page)
+
+    delta_page_range = 20
+    index = items.number - 1
+    max_index = len(paginator.page_range)
+    start_index = index - delta_page_range if index >= delta_page_range else 0
+    end_index = index + delta_page_range if index <= max_index - delta_page_range else max_index
+    page_range = list(paginator.page_range)[start_index:end_index]
+
+    context = {
+        "shops": shops,
+        "items": items,
+        'page_range': page_range,
+    }
+    return render(request, 'dashboard_listings.html', context)
+
+
+@login_required
+def excel(request):
+    """
+    Load listings from Excel/etc
+    """
+    context = {}
+    return render(request, 'excel.html', context)
+
 
 
 def oauth_callback(request, shop_id):

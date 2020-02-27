@@ -29,6 +29,8 @@ urlpatterns = [
     path('man/', include('man.urls')),
     path('', man.views.home, name='home'),
     path('d/', man.views.dashboard, name='dashboard'),
+    path('l/', man.views.listings, name='listings'),
+    path('excel/', man.views.excel, name='excel'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

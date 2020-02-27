@@ -16,17 +16,28 @@
 
 {% block menu %}
     <ul class="navbar-nav ml-auto">
-    {% for item in steps %}
+    <!-- {% for item in steps %}
         <li class="nav-item mx-0 mx-lg-1">
             <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="?step={{item}}">{{item}}</a>
         </li>
-    {% endfor %}
+    {% endfor %} -->
+      <li class="nav-item mx-0 mx-lg-1">
+        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/d/">Orders</a>
+      </li>
+
+      <li class="nav-item mx-0 mx-lg-1">
+        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/l/">Listings</a>
+      </li>
+
+      <li class="nav-item mx-0 mx-lg-1">
+        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/excel/">Excel</a>
+      </li>
     </ul>
 {% endblock %}
 
 {% block content %}
     <div class="jumbotron">
-      <div class="col-sm-8 mx-auto">
+      <div class="col-sm-12 mx-auto">
         {% include 'dashboard_filters.html' %}
 
         {% for item in items %}

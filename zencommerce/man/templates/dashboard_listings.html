@@ -1,0 +1,62 @@
+{% extends 'dashboard.html' %}
+
+{% block h1 %}
+    <h1 class="masthead-heading text-uppercase mb-0">
+      Listings
+    </h1>
+{% endblock %}
+
+{% block subheading %}
+{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+      <div class="col-sm-12 mx-auto">
+        {% include 'dashboard_filters_listings.html' %}
+
+        {% for item in items %}
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">
+                    {{item.shop}} >> #{{item.listing_id}}
+                    <div class="dropdown float-right">
+                        <span class="small">State: {{item.state}}</span>
+                    </div>
+                </h5>
+                <p class="card-text">
+                    {{item.title}}
+                </p>
+                <p class="card-text">
+                    {{item.description|linebreaksbr}}
+                </p>
+                <a href="#" class="btn btn-primary">Edit</a>
+                <!-- <a href="#" class="btn btn-info">Pack</a>
+                <a href="#" class="btn btn-warning">Ship</a> -->
+              </div>
+            </div>
+        {% endfor %}
+
+        {% if items.has_other_pages %}
+          <ul class="pagination">
+            {% if items.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page={{ items.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+            {% endif %}
+            {% for i in page_range %}
+              {% if items.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+              {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if items.has_next %}
+              <li class="page-item"><a class="page-link" href="?page={{ items.next_page_number }}">&raquo;</a></li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            {% endif %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+{% endblock %}
