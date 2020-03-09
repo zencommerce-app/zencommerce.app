@@ -14,10 +14,36 @@
 
 {% block content %}
     <div class="jumbotron">
-      <div class="col-sm-12 mx-auto">
+      <div class="col-sm-4 mx-auto">
+        {% if items_processed %}
+          <div class="alert alert-info" role="alert">Listings processed: {{items_processed}}</div>
+        {% endif %}
 
-          File:
-          <input type="file" id="file" value="">
+        {% if shop %}
+          <pre>{{shop.jobs_log|pprint}}</pre>
+        {% endif %}
+
+        Sample Excel file: <a href="/static/ListingsTest.xlsx">ListingsTest.xlsx</a>
+
+
+        <form method="POST" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="inputShop">Shop</label>
+            <select name="shop" class="form-control" id="inputShop">
+              {% for item in shops %}
+                  <option value="{{item.id}}">{{item}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="inputFile">Excel file</label>
+            <input type="file" class="form-control-file" id="inputFile" name="excelfile" value="" />
+          </div>
+
+
+          <input type="submit" class="btn btn-primary" value="Upload" />
+        </form>
 
       </div>
     </div>

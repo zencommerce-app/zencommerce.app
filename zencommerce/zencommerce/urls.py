@@ -30,6 +30,7 @@ urlpatterns = [
     path('', man.views.home, name='home'),
     path('d/', man.views.dashboard, name='dashboard'),
     path('l/', man.views.listings, name='listings'),
+    path('shops/', man.views.shops, name='shops'),
     path('excel/', man.views.excel, name='excel'),
 ]
 

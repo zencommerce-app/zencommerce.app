@@ -12,7 +12,8 @@ class EtsyShopAdmin(admin.ModelAdmin):
 
 
 class EtsyListingAdmin(admin.ModelAdmin):
-    list_display = ('listing_id', 'shop', 'title', 'state', 'featured_rank')
+    list_display = ('listing_id', 'sku', 'shop', 'title', 'state', 'featured_rank')
+    list_filter = ('user', 'shop',)
 
 
 class EtsyReceiptAdmin(admin.ModelAdmin):

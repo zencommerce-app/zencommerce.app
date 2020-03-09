@@ -2,12 +2,12 @@
 Functions for background jobs
 """
 
-from datetime import datetime
-
 import json
 
 from django.conf import settings
 from django.db import transaction
+
+from .utils import _normalize_bool, _jobs_log
 
 
 def sync_countries(shop):
@@ -279,29 +279,3 @@ def sync_transactions(shop):
 
     _jobs_log(shop, '[Transactions] downloaded: {}'.format(items_processed))
     return items_processed
-
-def _jobs_log(item, msg):
-    """
-    Appends msg to object's 'jobs_log' field.
-    """
-
-    ts = datetime.now().isoformat(' ', 'seconds')
-
-    if hasattr(item, 'jobs_log'):
-        item.jobs_log = '{} {}\n'.format(ts, msg) + item.jobs_log
-        item.save()
-
-
-def _normalize_bool(val):
-    """
-    2019 Nov 09: For some reason ETSY API returns string 'false' / 'true' for
-    'is_supply' property.
-    https://www.etsy.com/developers/documentation/reference/listing
-    """
-
-    if type(val) == str:
-        return val == 'true'
-    elif type(val) == bool:
-        return val
-    # TODO: check for other options
-    return False

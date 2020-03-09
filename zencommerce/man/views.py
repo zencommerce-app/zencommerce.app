@@ -6,10 +6,12 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
+from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.conf import settings
 
 from .models import EtsyShop, EtsyReceipt, EtsyListing
+from .excel_loader import load_excel_file
 from flow.models import BusinessProcessStep
 
 
@@ -94,11 +96,59 @@ def listings(request):
 
 
 @login_required
+def shops(request):
+    """
+    Dashboard with shops
+    """
+
+    items_all = EtsyShop.objects.filter(user=request.user)
+
+    paginator = Paginator(
+        items_all,
+        settings.PER_PAGE
+    )
+
+    page = request.GET.get("page", 1)
+    items = paginator.page(page)
+
+    delta_page_range = 20
+    index = items.number - 1
+    max_index = len(paginator.page_range)
+    start_index = index - delta_page_range if index >= delta_page_range else 0
+    end_index = index + delta_page_range if index <= max_index - delta_page_range else max_index
+    page_range = list(paginator.page_range)[start_index:end_index]
+
+    context = {
+        "shops": items_all,
+        "items": items,
+        'page_range': page_range,
+    }
+    return render(request, 'dashboard_shops.html', context)
+
+
+@login_required
+@csrf_exempt
 def excel(request):
     """
     Load listings from Excel/etc
     """
-    context = {}
+    shops = EtsyShop.objects.filter(user=request.user)
+    shop = None
+    items_processed = 0
+
+    if request.method == "POST" and request.FILES['excelfile']:
+        shop_id = request.POST['shop']
+        fd = request.FILES['excelfile']
+
+        shop = EtsyShop.objects.get(pk=shop_id)
+
+        items_processed = load_excel_file(shop, fd.temporary_file_path())
+
+    context = {
+        "shop": shop,
+        "shops": shops,
+        "items_processed": items_processed
+    }
     return render(request, 'excel.html', context)
 
 

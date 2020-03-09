@@ -10,3 +10,6 @@ rq
 django-rq
 APScheduler
 sentry-sdk
+pandas
+openpyxl
+xlrd

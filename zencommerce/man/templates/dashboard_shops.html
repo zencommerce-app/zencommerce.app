@@ -1,0 +1,57 @@
+{% extends 'dashboard.html' %}
+
+{% block h1 %}
+    <h1 class="masthead-heading text-uppercase mb-0">
+      Shops
+    </h1>
+{% endblock %}
+
+{% block subheading %}
+{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+      <div class="col-sm-12 mx-auto">
+        {% for item in items %}
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">
+                    {{item.title}}
+                </h5>
+                <p class="card-text">
+                    <a target="_blank" href="{{item.uri}}">{{item.uri}}</a>
+                </p>
+                <a target="_blank" href="/man/etsy_response/{{item.id}}/?method=shops/__SELF__" class="btn btn-primary">Test API (get shop info)</a>
+
+                <a target="_blank" href="/man/etsy_response/{{item.id}}/?method=users/__SELF__/shipping/templates" class="btn btn-secondary">API (get Shipping Profiles/Templates)</a>
+
+                <a target="_blank" href="/man/etsy_response/2/?method=/taxonomy/seller/get" class="btn">API - Taxonomies</a>
+
+              </div>
+            </div>
+        {% endfor %}
+
+        {% if items.has_other_pages %}
+          <ul class="pagination">
+            {% if items.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page={{ items.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+            {% endif %}
+            {% for i in page_range %}
+              {% if items.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+              {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if items.has_next %}
+              <li class="page-item"><a class="page-link" href="?page={{ items.next_page_number }}">&raquo;</a></li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            {% endif %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+{% endblock %}
