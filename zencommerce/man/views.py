@@ -152,7 +152,7 @@ def excel(request):
     return render(request, 'excel.html', context)
 
 
-
+@csrf_exempt
 def oauth_callback(request, shop_id):
     """
     Connects shop in our DB with ETSY shop,
@@ -174,6 +174,7 @@ def oauth_callback(request, shop_id):
 
 
 @staff_member_required
+@csrf_exempt
 def etsy_response(request, shop_id):
     """
     Returns raw response from ETSY
