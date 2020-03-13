@@ -2,7 +2,7 @@
 Zen-Commerce views
 """
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
@@ -167,13 +167,16 @@ def oauth_callback(request, shop_id):
     item = EtsyShop.objects.get(pk=shop_id)
 
     if request.method == "GET":
-        context = item.request_etsy_token()
-        return HttpResponse(context['login_url'])
+        try:
+            context = item.request_etsy_token()
+            return JsonResponse({'login_url': context['login_url']})
+        except Exception as e:
+            return JsonResponse({"error": str(e)})
 
     if request.method == "POST":
         verifier = request.POST["verifier"]
         item.store_access_request(verifier=verifier)
-        return HttpResponse("ok")
+        return HttpResponse("Shop tokens ok")
 
     return HttpResponse("GET or POST accepted")
 

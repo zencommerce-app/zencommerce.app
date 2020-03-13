@@ -11,9 +11,15 @@
         function request_etsy_token() {
             var r = confirm("WARNING: This will overwrite existing tokens!");
             if (r == true) {
-                $.get(oauth_callback, {}, function(login_url) {
-                    $("#id_login_url").attr("href", login_url);
-                    $("#id_etsy_connect").show();
+                $.get(oauth_callback, {}, function(response) {
+                    if (response.error) {
+                        $("#id_etsy_connect_error").html(response.error);
+                    } else {
+                        $("#id_login_url").attr("href", response.login_url);
+                        $("#id_etsy_connect").show();
+                    }
+                }).error(function(jqXHR, textStatus, errorThrown) {
+                    alert( errorThrown );
                 });
             }
             return false;
@@ -21,6 +27,7 @@
 
         function save_etsy_token() {
             $.post(oauth_callback, {"verifier": $("#id_verifier").val()}, function(data) {
+                alert(data);
                 location.reload();
             });
             return false;
@@ -36,6 +43,7 @@
 {% block object-tools %} {{ block.super }}
     {% if opts.model_name == "etsyshop" %}
         {% if original %}
+            <div style="margin: 10px;" id="id_etsy_connect_error"></div>
             <div style="float:right">
                 <input type="button" style="background-color: #ba2121" value="ETSY - Request shop tokens" onclick="request_etsy_token();" />
                 <br />
