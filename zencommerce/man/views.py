@@ -10,8 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.conf import settings
 
-from .models import EtsyShop, EtsyReceipt, EtsyListing
-from .excel_loader import load_excel_file
+from .models import EtsyShop, EtsyReceipt, EtsyListing, EtsyUploadJob
+from .excel_loader import create_load_job, load_excel_file
 from flow.models import BusinessProcessStep
 
 
@@ -132,17 +132,22 @@ def excel(request):
     """
     Load listings from Excel/etc
     """
-    shops = EtsyShop.objects.filter(user=request.user)
+    user = request.user
+    shops = EtsyShop.objects.filter(user=user)
     shop = None
     items_processed = 0
 
     if request.method == "POST" and request.FILES['excelfile']:
         shop_id = request.POST['shop']
         fd = request.FILES['excelfile']
+        file_archive = request.FILES.get('file_archive', None)
 
+        # TODO: check this shop is owned by request.user
         shop = EtsyShop.objects.get(pk=shop_id)
 
-        items_processed = load_excel_file(shop, fd.temporary_file_path())
+        items_processed = create_load_job(user, shop, fd, file_archive)
+        shop = None
+        # items_processed = load_excel_file(shop, fd.temporary_file_path())
 
     context = {
         "shop": shop,

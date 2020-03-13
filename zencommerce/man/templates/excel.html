@@ -14,36 +14,74 @@
 
 {% block content %}
     <div class="jumbotron">
-      <div class="col-sm-4 mx-auto">
+      <div class="col-sm-12 mx-auto">
         {% if items_processed %}
-          <div class="alert alert-info" role="alert">Listings processed: {{items_processed}}</div>
+          <div class="alert alert-info" role="alert">Upload job created. Listings to process: {{items_processed}}. <a href="/jobs/">View jobs dashboard</a></div>
+
+          {% if shop %}
+            <pre>{{shop.jobs_log|pprint}}</pre>
+          {% endif %}
+
+        {% else %}
+
+          <p>
+            Sample Excel file: <a href="/static/ListingsTest.xlsx">ListingsTest.xlsx</a>
+          </p>
+
+          <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="inputShop">Shop</label>
+              <select name="shop" class="form-control" id="inputShop">
+                {% for item in shops %}
+                    <option value="{{item.id}}">{{item}}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="inputFile">Excel file</label>
+              <input type="file" class="form-control-file" id="inputFile" name="excelfile" value="" required="required" />
+            </div>
+
+            <div class="form-group">
+              <label for="inputFile2">Archive with Photos/Files (ZIP, optional)</label>
+              <input type="file" class="form-control-file" id="inputFile" name="file_archive" value="" />
+            </div>
+
+            <input type="submit" class="btn btn-primary" value="Upload" />
+          </form>
+
+          <p>
+            Upload rules:
+            <ul>
+              <li>Use SKU for listings! This will help to sync listings between Etsy and local DB</li>
+              <li>IF you already have listings on Etsy - RUN SYNC JOB first</li>
+              <li>IF SKU in Excel - uploader looks in our DB for item - THEN use item’s LISTING_ID - UPDATE</li>
+              <li>IF NO SKU - uploader will create NEW listing every time</li>
+            </ul>
+          </p>
+
+          <p>
+            Photos/Files for listings should be organized by SKU:
+            <ul>
+              <li>SKU 1
+                <ul>
+                  <li>file1.jpg</li>
+                  <li>file2.jpg</li>
+                  <li>...</li>
+                </ul>
+              </li>
+              <li>SKU 2
+                <ul>
+                  <li>file1.jpg</li>
+                  <li>file2.jpg</li>
+                  <li>...</li>
+                </ul>
+              </li>
+              <li>...</li>
+            </ul>
+          </p>
         {% endif %}
-
-        {% if shop %}
-          <pre>{{shop.jobs_log|pprint}}</pre>
-        {% endif %}
-
-        Sample Excel file: <a href="/static/ListingsTest.xlsx">ListingsTest.xlsx</a>
-
-
-        <form method="POST" enctype="multipart/form-data">
-          <div class="form-group">
-            <label for="inputShop">Shop</label>
-            <select name="shop" class="form-control" id="inputShop">
-              {% for item in shops %}
-                  <option value="{{item.id}}">{{item}}</option>
-              {% endfor %}
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="inputFile">Excel file</label>
-            <input type="file" class="form-control-file" id="inputFile" name="excelfile" value="" />
-          </div>
-
-
-          <input type="submit" class="btn btn-primary" value="Upload" />
-        </form>
 
       </div>
     </div>

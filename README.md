@@ -84,6 +84,18 @@ After all is set up run these make commands from terminal:
 
 This will apply migrations, load initial data from fixtures and start a dev server at http://127.0.0.1:8000
 
+To run a worker for background jobs:
+
+1. New terminal window and
+
+    redis-server /usr/local/etc/redis.conf
+
+2. New terminal window and
+
+    source ./venv/bin/activate
+
+    python ./zencommerce/worker.py
+
 Useful step:
 
     python ./zencommerce/manage.py createsuperuser

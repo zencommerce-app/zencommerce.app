@@ -12,7 +12,7 @@ class EtsyShopAdmin(admin.ModelAdmin):
 
 
 class EtsyListingAdmin(admin.ModelAdmin):
-    list_display = ('listing_id', 'sku', 'shop', 'title', 'state', 'featured_rank')
+    list_display = ('listing_id', 'sku', 'shop', 'title', 'state')
     list_filter = ('user', 'shop',)
 
 
@@ -24,8 +24,14 @@ class EtsyTransactionAdmin(admin.ModelAdmin):
     list_display = ('transaction_id', 'receipt_id', 'title', 'price', 'currency_code', 'quantity', 'shipping_cost')
 
 
+class EtsyUploadJobAdmin(admin.ModelAdmin):
+    list_display = ('created_at', 'status', 'user', 'shop', 'title', 'progress')
+    list_filter = ('user', 'shop',)
+
+
 admin.site.register(EtsyShop, EtsyShopAdmin)
 admin.site.register(EtsyListing, EtsyListingAdmin)
 admin.site.register(EtsyCountry, EtsyCountryAdmin)
 admin.site.register(EtsyReceipt, EtsyReceiptAdmin)
 admin.site.register(EtsyTransaction, EtsyTransactionAdmin)
+admin.site.register(EtsyUploadJob, EtsyUploadJobAdmin)

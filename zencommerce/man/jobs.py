@@ -102,9 +102,18 @@ def sync_listings(shop, l_type='active'):
                 item_json.pop('user_id', None)
                 item_json['is_supply'] = _normalize_bool(item_json['is_supply'])
 
-                item = EtsyListing(**item_json)
+                item = EtsyListing()
                 item.shop = shop
                 item.user = shop.user
+                item.listing_data = item_json
+                for attr, value in item_json.items():
+                    if hasattr(item, attr):
+                        setattr(item, attr, value)
+                    # TODO: consider:
+                    # try:
+                    #     setattr(item, attr, value)
+                    # except AttributeError:
+                    #     pass
                 item.save()
 
                 items_processed += 1

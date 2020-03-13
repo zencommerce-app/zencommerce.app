@@ -8,23 +8,38 @@ import json
 
 from django.conf import settings
 
-from .models import EtsyListing
+from .models import EtsyListing, EtsyUploadJob
 from .utils import _to_int, _to_str, _to_str_bool, _normalize_bool, _jobs_log
 
 
-class ListingProxy:
-    "Proxy object to store loaded data"
+def create_load_job(user, shop, file_excel, file_archive):
+    "Creates a job to upload Listings to Etsy and our DB"
 
-    def __init__(self, data):
-        self.data = data
+    data = pd.read_excel(file_excel.temporary_file_path())
+    # check result
+    print (data.head(3))
+    # print (data.to_json(orient='records'))
+    json_data = data.to_json(orient='records')
+    items_total = len(data.index)
 
-    def __getattr__(self, attr):
-        # self.data[]
-        return attr.upper()
+    item = EtsyUploadJob(
+        title = "Job - {}, items {}".format(shop, items_total),
+        user = user,
+        shop = shop,
+        status = "new",
+        items_total = items_total,
+        items_processed = 0,
+        job_data = json.loads(json_data),
+        file_archive = file_archive
+    )
+
+    item.save()
+
+    return items_total
 
 
 def load_excel_file(shop, filename):
-    "Loads file into list of ListingProxy objects"
+    "Loads Excel file into Etsy and our DB"
 
     # wb = load_workbook(filename=filename)
     # ws = wb['Listings'] # Sheet name in Excel file
@@ -34,10 +49,10 @@ def load_excel_file(shop, filename):
     API_ENDPOINT_UPDATE = 'listings/{}'
 
     data = pd.read_excel(filename) #, header=1)
-
     # check result
     print (data.head(3))
-
+    # print (data.to_json(orient='records'))
+    # json_data = data.to_json(orient='records')
 
     items_processed = 0
     session = shop.get_oauth()
@@ -45,6 +60,7 @@ def load_excel_file(shop, filename):
     for index, row in data.iterrows():
         print ("Processing", row['Title'])
         item = None
+        recreating_on_etsy = False
         listing_id = _to_int(row['Listing id'])
 
         sku = _to_str(row['Sku'])
@@ -84,6 +100,22 @@ def load_excel_file(shop, filename):
             print ("[UPDATE] Putting to URL", url)
             _jobs_log(shop, "[UPDATE] Putting to URL {}".format(url))
             response = session.put(url, data=item_data)
+
+            if not response.ok:
+                _jobs_log(shop, "[API ERROR] {}".format(response.text))
+                item.state = "removed"
+                item.save()
+                item = None
+                # Listing may exists in our DB but not on ETSY
+                # Will try to recreate it
+                recreating_on_etsy = True
+                del item_data['listing_id']
+
+                url = settings.ETSY_API_URI + API_ENDPOINT
+                print ("[NEW for UPDATE] Posting to URL", url)
+                _jobs_log(shop, "[NEW] Posting to URL {}".format(url))
+                response = session.post(url, json=item_data)
+
         else:
             url = settings.ETSY_API_URI + API_ENDPOINT
             print ("[NEW] Posting to URL", url)
@@ -95,7 +127,7 @@ def load_excel_file(shop, filename):
 
         if response.ok:
             print ("OK")
-            _jobs_log(shop, "[API OK] {}".format(response.text))
+            # _jobs_log(shop, "[API OK] {}".format(response.text))
 
             if (not 'results' in response.json()) or (response.json()['count'] == 0):
                 # no Listing data in response
@@ -111,14 +143,14 @@ def load_excel_file(shop, filename):
             if not item_json['sku'] and sku:
                 item_json['sku'] = [sku]
 
-            # TODO: check if hasattr, then assign attribute
-            if item:
-                for attr, value in item_json.items():
-                    setattr(item, attr, value)
-            else:
-                item = EtsyListing(**item_json)
+            if not item:
+                item = EtsyListing()
                 item.shop = shop
                 item.user = shop.user
+
+            for attr, value in item_json.items():
+                if hasattr(item, attr):
+                    setattr(item, attr, value)
 
             item.save()
             _jobs_log(shop, "Updated {}".format(item))

@@ -18,6 +18,15 @@ from . import jobs
 from . import etsy_enums
 
 
+UPLOAD_JOB_STATUSES = [
+    ('new', 'new'),
+    ('running', 'running'),
+    ('error', 'error'),
+    ('paused', 'paused'),
+    ('finished', 'finished'),
+]
+
+
 class EtsyCountry(models.Model):
     """
     Model to represent ETSY country
@@ -159,14 +168,14 @@ class EtsyListing(mixins.BaseMixin, mixins.JobsLogMixin):
     etsy_user_id = models.IntegerField(blank=True, default=0)
 
     # Category ID is deprecated, use Taxonomy instead
-    category_id = models.IntegerField(blank=True, default=0)
-    category_path = ArrayField(models.CharField(max_length=200), blank=True, null=True)
-    category_path_ids = ArrayField(models.IntegerField(default=0), blank=True, null=True)
+    # category_id = models.IntegerField(blank=True, default=0, null=True)
+    # category_path = ArrayField(models.CharField(max_length=200), blank=True, null=True)
+    # category_path_ids = ArrayField(models.IntegerField(default=0), blank=True, null=True)
     # Taxonomy ID is new type of Categories
     # https://www.etsy.com/developers/documentation/reference/taxonomy#method_getsellertaxonomy
     # https://www.etscsv.com/taxonomies
     taxonomy_id = models.IntegerField(blank=True, null=True)
-    suggested_taxonomy_id = models.IntegerField(blank=True, null=True)
+    # suggested_taxonomy_id = models.IntegerField(blank=True, null=True)
     taxonomy_path = ArrayField(models.CharField(max_length=200), blank=True, null=True)
 
     creation_tsz = models.FloatField(blank=True, default=0.0)
@@ -182,9 +191,9 @@ class EtsyListing(mixins.BaseMixin, mixins.JobsLogMixin):
     tags = ArrayField(models.CharField(max_length=200), blank=True, null=True)
 
     materials = ArrayField(models.CharField(max_length=200), blank=True, null=True)
-    shop_section_id = models.IntegerField(blank=True, null=True)
-    featured_rank = models.IntegerField(blank=True, null=True)
-    state_tsz = models.FloatField(blank=True, default=0.0)
+    # shop_section_id = models.IntegerField(blank=True, null=True)
+    # featured_rank = models.IntegerField(blank=True, null=True)
+    # state_tsz = models.FloatField(blank=True, default=0.0)
     url = models.CharField(max_length=200, blank=True)
     shipping_template_id = models.CharField(max_length=200, blank=True, null=True)
     processing_min = models.IntegerField(blank=True, null=True)
@@ -194,12 +203,12 @@ class EtsyListing(mixins.BaseMixin, mixins.JobsLogMixin):
     is_supply = models.BooleanField(default=False)
     when_made = models.CharField(max_length=200, blank=True, choices=etsy_enums.ETSY_WHEN_MADE)
 
-    item_weight = models.IntegerField(blank=True, null=True)
-    item_weight_unit = models.CharField(max_length=200, blank=True, null=True)
-    item_length = models.IntegerField(blank=True, null=True)
-    item_width = models.IntegerField(blank=True, null=True)
-    item_height = models.IntegerField(blank=True, null=True)
-    item_dimensions_unit = models.CharField(max_length=200, blank=True, null=True)
+    # item_weight = models.IntegerField(blank=True, null=True)
+    # item_weight_unit = models.CharField(max_length=200, blank=True, null=True)
+    # item_length = models.IntegerField(blank=True, null=True)
+    # item_width = models.IntegerField(blank=True, null=True)
+    # item_height = models.IntegerField(blank=True, null=True)
+    # item_dimensions_unit = models.CharField(max_length=200, blank=True, null=True)
     is_private = models.BooleanField(default=False)
     recipient = models.CharField(max_length=200, blank=True, null=True)
 
@@ -212,7 +221,7 @@ class EtsyListing(mixins.BaseMixin, mixins.JobsLogMixin):
     is_customizable = models.BooleanField(default=False)
     is_digital = models.BooleanField(default=False)
     file_data = models.TextField(blank=True)
-    can_write_inventory = models.BooleanField(default=False)
+    # can_write_inventory = models.BooleanField(default=False)
     should_auto_renew = models.BooleanField(default=False)
 
     language = models.CharField(max_length=200, blank=True)
@@ -226,6 +235,8 @@ class EtsyListing(mixins.BaseMixin, mixins.JobsLogMixin):
 
     views = models.IntegerField(blank=True, null=True)
     num_favorers = models.IntegerField(blank=True, null=True)
+
+    listing_data = JSONField(blank=True, default=dict)
 
 
 class EtsyReceipt(mixins.BaseMixin, mixins.JobsLogMixin):
@@ -256,7 +267,7 @@ class EtsyReceipt(mixins.BaseMixin, mixins.JobsLogMixin):
     adjusted_grandtotal = models.CharField(max_length=20, blank=True)
     buyer_adjusted_grandtotal = models.CharField(max_length=20, blank=True)
 
-    receipt_data = JSONField()
+    receipt_data = JSONField(blank=True, default=dict)
 
 
 class EtsyTransaction(mixins.BaseMixin, mixins.JobsLogMixin):
@@ -281,4 +292,22 @@ class EtsyTransaction(mixins.BaseMixin, mixins.JobsLogMixin):
     quantity = models.IntegerField(blank=True, null=True)
     shipping_cost = models.CharField(max_length=200, blank=True)
 
-    transaction_data = JSONField()
+    transaction_data = JSONField(blank=True, default=dict)
+
+
+class EtsyUploadJob(mixins.BaseMixin, mixins.JobsLogMixin):
+    """
+    Will store Excel file upload job data and progress
+    """
+    shop = models.ForeignKey(EtsyShop, on_delete=models.CASCADE)
+
+    status = models.CharField(max_length=20, blank=True, choices=UPLOAD_JOB_STATUSES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    progress = models.CharField(max_length=200, blank=True)
+    items_total = models.IntegerField(default=0)
+    items_processed = models.IntegerField(default=0)
+
+    job_data = JSONField(blank=True, default=dict)
+    file_archive = models.FileField(blank=True, upload_to='listings/%Y/%m/%d/')
+
